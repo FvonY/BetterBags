@@ -755,7 +755,7 @@ function itemFrame:_DoCreate(_)
 
   i.frame = p
 
-  local ilvlText = button:CreateFontString(nil, "OVERLAY", "NumberFontNormal")
+  local ilvlText = button:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmall")
   ilvlText:SetPoint("BOTTOMLEFT", 2, 2)
   i.ilvlText = ilvlText
 
