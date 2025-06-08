@@ -151,11 +151,12 @@ function config:CreateConfig()
       ["Alphabetically"] = const.ITEM_SORT_TYPE.ALPHABETICALLY_THEN_QUALITY,
       ["Quality"] = const.ITEM_SORT_TYPE.QUALITY_THEN_ALPHABETICALLY,
       ["Item Level"] = const.ITEM_SORT_TYPE.ITEM_LEVEL,
+      ["Inventory Type"] = const.ITEM_SORT_TYPE.INVENTORY_TYPE, 
     }
     f:AddDropdown({
       title = 'Item Order',
       description = 'The default order of items within each section.',
-      items = {'Alphabetically', 'Quality', 'Item Level'},
+      items = {'Alphabetically', 'Quality', 'Item Level', 'Inventory Type'},
       getValue = function(_, value)
         return itemOrders[value] == db:GetItemSortType(bagType.kind, db:GetBagView(bagType.kind))
       end,

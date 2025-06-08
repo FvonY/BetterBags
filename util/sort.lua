@@ -69,6 +69,8 @@ function sort:GetItemSortFunction(kind, view)
     return self.SortItemsByQualityThenAlpha
   elseif sortType == const.ITEM_SORT_TYPE.ITEM_LEVEL then
     return self.SortItemsByItemLevel
+  elseif sortType == const.ITEM_SORT_TYPE.INVENTORY_TYPE then
+    return self.SortItemsByInvTypeThenQualityThenAlpha
   end
   assert(false, "Unknown sort type: " .. sortType)
   return function() end
@@ -215,4 +217,31 @@ function sort.GetItemSortBySlot(a, b)
   if not aData then return false end
   if not bData then return true end
   return aData.slotid < bData.slotid
+end
+
+---@param a Item
+---@param b Item
+---@return boolean
+-- MONDA sort function with inventory type
+function sort.SortItemsByInvTypeThenQualityThenAlpha(a, b)
+  if a.isFreeSlot then return false end
+  if b.isFreeSlot then return true end
+  local aData, bData = a:GetItemData(), b:GetItemData()
+  if invalidData(aData, bData) then return false end
+
+  local a_monda_invtype = C_Item.GetItemInventoryTypeByID(a.stackid)
+  local b_monda_invtype = C_Item.GetItemInventoryTypeByID(b.stackid)
+
+  if a_monda_invtype ~= b_monda_invtype then
+    return a_monda_invtype < b_monda_invtype
+  elseif aData.itemInfo.itemQuality ~= bData.itemInfo.itemQuality then
+      return aData.itemInfo.itemQuality > bData.itemInfo.itemQuality
+  elseif aData.itemInfo.currentItemLevel ~= bData.itemInfo.currentItemLevel then
+    return aData.itemInfo.currentItemLevel > bData.itemInfo.currentItemLevel
+  elseif aData.itemInfo.itemName ~= bData.itemInfo.itemName then
+    return aData.itemInfo.itemName < bData.itemInfo.itemName
+  elseif aData.itemInfo.currentItemCount ~= bData.itemInfo.currentItemCount then
+    return aData.itemInfo.currentItemCount > bData.itemInfo.currentItemCount
+  end
+  return aData.itemInfo.itemGUID < bData.itemInfo.itemGUID
 end
