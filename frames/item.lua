@@ -460,7 +460,7 @@ end
 ---@param ctx Context
 function itemFrame.itemProto:ResetSize(ctx)
   local decoration = themes:GetItemButton(ctx, self)
-  self:SetSize(ctx, 37, 37)
+  self:SetSize(ctx, 32, 32)
   decoration.NormalTexture:SetSize(64, 64)
 end
 
@@ -477,6 +477,7 @@ function itemFrame.itemProto:SetSize(ctx, width, height)
   decoration.IconQuestTexture:SetSize(width, height)
   decoration.IconTexture:SetSize(width, height)
   decoration.IconOverlay:SetSize(width, height)
+  _G[decoration:GetName().."Count"]:SetFontObject('NumberFontNormalSmall') -- Change Number Font to be smaller
 end
 
 ---@param bagid number
